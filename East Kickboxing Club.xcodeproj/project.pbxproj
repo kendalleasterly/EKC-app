@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4E616D86AD76510F53C060E9 /* Pods_East_Kickboxing_Club.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1AAA5B4EC7895917870EA3 /* Pods_East_Kickboxing_Club.framework */; };
+		C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66C1A2325FDD796005033E9 /* AccountView.swift */; };
 		C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72CB25FC654E0081BE27 /* AccountModel.swift */; };
 		C69E72D425FC736C0081BE27 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72D325FC736C0081BE27 /* BookView.swift */; };
 		C69E72DC25FC83730081BE27 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72DB25FC83730081BE27 /* Color+Extension.swift */; };
 		C69E72E025FC86C20081BE27 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72DF25FC86C20081BE27 /* View+Extension.swift */; };
+		C6EFE27C25FD756300284A28 /* ProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EFE27B25FD756300284A28 /* ProductsView.swift */; };
+		C6EFE27F25FD81C300284A28 /* BookingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EFE27E25FD81C300284A28 /* BookingModel.swift */; };
 		C6FF8E6425FC59ED000437F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FF8E6325FC59ED000437F4 /* AppDelegate.swift */; };
 		C6FF8E6625FC59ED000437F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FF8E6525FC59ED000437F4 /* SceneDelegate.swift */; };
 		C6FF8E6825FC59ED000437F4 /* TabViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FF8E6725FC59ED000437F4 /* TabViewContainer.swift */; };
@@ -23,10 +26,13 @@
 
 /* Begin PBXFileReference section */
 		1A1AAA5B4EC7895917870EA3 /* Pods_East_Kickboxing_Club.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_East_Kickboxing_Club.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C66C1A2325FDD796005033E9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		C69E72CB25FC654E0081BE27 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		C69E72D325FC736C0081BE27 /* BookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
 		C69E72DB25FC83730081BE27 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		C69E72DF25FC86C20081BE27 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		C6EFE27B25FD756300284A28 /* ProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsView.swift; sourceTree = "<group>"; };
+		C6EFE27E25FD81C300284A28 /* BookingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingModel.swift; sourceTree = "<group>"; };
 		C6FF8E6025FC59ED000437F4 /* East Kickboxing Club.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "East Kickboxing Club.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FF8E6325FC59ED000437F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6FF8E6525FC59ED000437F4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +66,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C62878FD25FD49AB00040418 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C69E72DB25FC83730081BE27 /* Color+Extension.swift */,
+				C69E72DF25FC86C20081BE27 /* View+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		C69E72D025FC72F00081BE27 /* System */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				C69E72CB25FC654E0081BE27 /* AccountModel.swift */,
+				C6EFE27E25FD81C300284A28 /* BookingModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -86,6 +102,8 @@
 			children = (
 				C6FF8E6725FC59ED000437F4 /* TabViewContainer.swift */,
 				C69E72D325FC736C0081BE27 /* BookView.swift */,
+				C66C1A2325FDD796005033E9 /* AccountView.swift */,
+				C6EFE27B25FD756300284A28 /* ProductsView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -115,8 +133,7 @@
 				C69E72D225FC733D0081BE27 /* Views */,
 				C6FF8E6925FC59EE000437F4 /* Assets.xcassets */,
 				C69E72D025FC72F00081BE27 /* System */,
-				C69E72DB25FC83730081BE27 /* Color+Extension.swift */,
-				C69E72DF25FC86C20081BE27 /* View+Extension.swift */,
+				C62878FD25FD49AB00040418 /* Extensions */,
 			);
 			path = "East Kickboxing Club";
 			sourceTree = "<group>";
@@ -256,7 +273,10 @@
 				C6FF8E6425FC59ED000437F4 /* AppDelegate.swift in Sources */,
 				C6FF8E6625FC59ED000437F4 /* SceneDelegate.swift in Sources */,
 				C6FF8E6825FC59ED000437F4 /* TabViewContainer.swift in Sources */,
+				C6EFE27F25FD81C300284A28 /* BookingModel.swift in Sources */,
+				C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */,
 				C69E72DC25FC83730081BE27 /* Color+Extension.swift in Sources */,
+				C6EFE27C25FD756300284A28 /* ProductsView.swift in Sources */,
 				C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */,
 				C69E72E025FC86C20081BE27 /* View+Extension.swift in Sources */,
 				C69E72D425FC736C0081BE27 /* BookView.swift in Sources */,

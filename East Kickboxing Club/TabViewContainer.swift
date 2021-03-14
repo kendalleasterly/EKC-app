@@ -9,24 +9,23 @@ import SwiftUI
 
 struct TabViewContainer: View {
     
-    @ObservedObject var accountModel = AccountModel()
+    let accountModel = AccountModel()
+    let bookingModel = BookingModel()
     
     var body: some View {
         
         TabView{
             
-            AdditionalDivider(content: BookView())
+            AdditionalDivider(content: BookView().environmentObject(bookingModel))
                 .tabItem {
                     Image(systemName: "calendar")
                 }
             
-            AdditionalDivider(content: BookView())
+            AdditionalDivider(content: ProductsView())
                 .tabItem { Image(systemName: "cart") }
             
         }.onAppear {
-            
-//            accountModel.getData()
-            
+            bookingModel.getClasses()
         }
     }
 }
@@ -44,7 +43,5 @@ struct AdditionalDivider<Content: View>: View {
             Divider()
             
         }
-        
     }
-    
 }
