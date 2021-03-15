@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "calendar-today.png",
+      "filename" : "Group 26.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Group 18.png",
+      "filename" : "Group 31.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "calendar-today@2x.png",
+      "filename" : "Group 26@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Group 18@2x.png",
+      "filename" : "Group 31@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "calendar-today@3x.png",
+      "filename" : "Group 26@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Group 18@3x.png",
+      "filename" : "Group 31@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
