@@ -24,7 +24,6 @@ class AccountModel: ObservableObject {
                 if let document = snapshot {
                     
                     let data = document.data()!
-                    print(data)
                     
                     let acc = Account(isMember: data["isMember"] as! Bool,
                                       name: data["name"] as! String,

@@ -10,119 +10,195 @@ import SwiftUI
 struct BookView: View {
     
     @EnvironmentObject var model: BookingModel
-    @State var selectedDay = "7"
+    @EnvironmentObject var accountModel: AccountModel
+    @State var selectedDay = String(Calendar.current.component(.day, from: Date()))
     @State var isShowingAccount = false
     
-    var body: some View {
-        VStack (spacing: 0){
-            
-            HStack {
-                //header
-                
-                Button {
-                    isShowingAccount.toggle()
-                } label: {
-                    Image("user")
-                }.padding(.trailing, 10)
-                
-                Text("Book")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.label)
-                
-                Spacer()
-                
-            }.padding(.bottom, 5)
-            .padding(.horizontal)
-            
-            ScrollView(showsIndicators: false) {
-                
-                Spacer()
-                
-                HStack {
-                    ForEach(0..<7) { day in
-                        
-                        VStack{
-                            
-                            Text(Calendar.current.veryShortWeekdaySymbols[day])
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            
-                            ForEach(0..<getDays().count) { row in
-                                
-                                DaySubView(availableClasses: Array(model.availableClasses.keys),
-                                           selectedDay: $selectedDay,
-                                           day: getDays()[row][day])
-                                
-                            }
-                        }
-                        
-                        if day != 6 {
-                            Spacer()
-                        }
-                        
-                    }
-                }.carded()
-                .padding(.vertical)
-                
-                Spacer()
-                
-                if model.availableClasses.keys.contains(selectedDay) {
-                    
-                    VStack {
-                        
-                        Text(getInfoDate())
-                            .trailing()
-                            .foregroundColor(.secondaryLabel)
-                        
-                        VStack(alignment: .leading) {
-                            
-                            Group {
-                                Text("Time")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.secondaryLabel)
-                                
-                                
-                                Text(getInfoTime())
-                                    .fontWeight(.semibold)
-                                    .font(.title3)
-                            }
-                            
-                            VStack(alignment: .leading) {
-                                Text("Price")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.secondaryLabel)
-                                
-                                Text("$15.00")
-                                    .fontWeight(.semibold)
-                                    .font(.title3)
-                            }.padding(.vertical)
-                            
-                            Group {
-                                Text("Teacher")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.secondaryLabel)
-                                
-                                Text("Jason Easterly")
-                                    .fontWeight(.semibold)
-                                    .font(.title3)
-                            }
-                            
-                        }
-                        .leading()
-                        
-                    }.carded()
-                }
-                
-                Spacer()
-            }.padding(.horizontal)
-            
-        }.sheet(isPresented: $isShowingAccount, content: {AccountView()})
-        .padding(.top)
-        .background(Color.background.edgesIgnoringSafeArea(.all))
+    let collumns = [
         
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+        
+    ]
+    
+    var body: some View {
+        NavigationView{
+                
+                ScrollView(showsIndicators: false) {
+                    
+                    LazyVGrid(columns: collumns, content: {
+                        ForEach(0..<getDays().count) { day in
+                            
+                            let currentItem: String = getDays()[day]
+                            
+                            if currentItem == "S" ||
+                                currentItem == "M" ||
+                                currentItem == "W" ||
+                                currentItem == "T" ||
+                                currentItem == "F" {
+                                
+                                Text(currentItem)
+                                    .foregroundColor(.label)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                
+                            } else {
+                                
+                                DaySubView(availableClasses: Array(model.availableClasses.keys), selectedDay: $selectedDay, day: currentItem)
+                                
+                            }
+                        }
+                    }).carded(py: 28).padding(.vertical)
+                    
+                    if model.availableClasses.keys.contains(selectedDay) {
+                        
+                        
+                        ForEach(model.availableClasses[selectedDay]!, id:\.self) {date in
+                            
+                            VStack {
+                                
+                                Text(getInfoDate(date))
+                                    .trailing()
+                                    .foregroundColor(.secondaryLabel)
+                                
+                                VStack(alignment: .leading) {
+                                    
+                                    Group {
+                                        Text("Time")
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondaryLabel)
+                                        
+                                        
+                                        Text(getInfoTime(date))
+                                            .fontWeight(.semibold)
+                                            .font(.title3)
+                                    }
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Price")
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondaryLabel)
+                                        
+                                        Text("$15.00")
+                                            .fontWeight(.semibold)
+                                            .font(.title3)
+                                    }.padding(.vertical, 10)
+                                    
+                                    Group {
+                                        Text("Teacher")
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondaryLabel)
+                                        
+                                        Text("Jason Easterly")
+                                            .fontWeight(.semibold)
+                                            .font(.title3)
+                                    }
+                                    
+                                }.leading()
+                                
+                                ButtonView(text: "Next", destination: decideNextStep(), function: {
+                                    model.selectedDate = date
+                                }).padding(.top)
+                            }.carded()
+                            .padding(.bottom)
+                        }
+                    }
+                    
+                }.header(title: "Book")
+        }
     }
 }
+
+extension BookView {
+    
+    func getDays() -> [String] {
+        
+        let calendar = Calendar.current
+        var components = DateComponents()
+        
+        
+        components.year = calendar.component(.year, from: Date())
+        components.month = calendar.component(.month, from: Date())
+        
+        let firstOfMonth = calendar.date(from: components)
+        let offset = calendar.component(.weekday, from: firstOfMonth!)
+        
+        
+        components.month = calendar.component(.month, from: Date()) + 1
+        components.day = 0
+        
+        let lastOfMonth = calendar.date(from: components)
+        let amountOfDays = calendar.component(.day, from: lastOfMonth!)
+        
+        var daysArray = [String]()
+        
+        for day in calendar.veryShortWeekdaySymbols {
+            daysArray.append(day)
+        }
+        
+        for _ in 1..<offset {
+            daysArray.append(" ")
+        }
+        
+        for i in 1...amountOfDays {
+            daysArray.append(String(i))
+        }
+        
+        return daysArray
+        
+    }
+    
+    func getInfoDate(_ date: Date) -> String {
+        
+        let monthInt = Calendar.current.component(.month, from: date)
+        let month = Calendar.current.monthSymbols[monthInt - 1]
+        
+        return "\(month) \(selectedDay)"
+    }
+    
+    func getInfoTime(_ date: Date) -> String {
+        
+        var hour = Calendar.current.component(.hour, from: date)
+        let minute = Calendar.current.component(.minute, from: date)
+        
+        
+        if hour < 12 {
+            if minute != 0 {
+                return "\(hour):\(minute) AM"
+            } else {
+                return "\(hour) AM"
+            }
+        } else {
+            
+            hour -= 12
+            
+            if minute != 0 {
+                return "\(hour):\(minute) PM"
+            } else {
+                return "\(hour) PM"
+            }
+        }
+    }
+    
+    func decideNextStep() -> AnyView {
+        
+        if let account = accountModel.account {
+            if account.isMember || account.freeClasses > 0 {
+                return AnyView(ClassesAvailable())
+            } else {
+                return AnyView(Payment())
+            }
+        } else {
+            return AnyView(Payment())
+        }
+    }
+}
+
 
 struct DaySubView: View {
     
@@ -169,108 +245,3 @@ struct DaySubView: View {
     }
 }
 
-extension BookView {
-    
-    func getDays() -> [[String]] {
-        
-        //get all the days in one array
-        
-        var plainDaysArray = [String]()
-        
-        
-        let currentYear = Calendar.current.component(.year, from: Date())
-        let currentMonth = Calendar.current.component(.month, from: Date())
-        
-        var components = DateComponents()
-        components.year = currentYear
-        components.month = currentMonth + 1
-        
-        let nextMonth = Calendar.current.date(from: components)
-        let lastDay = Calendar.current.date(byAdding: .day, value: -1, to: nextMonth!)
-        
-        let numOfDays = Calendar.current.component(.day, from: lastDay!)
-        
-        for i in 1...numOfDays {
-            plainDaysArray.append(String(i))
-        }
-        
-        //add however many empty strings to the array that you need to offset
-        
-        components.month = currentMonth
-        
-        let thisMonth = Calendar.current.date(from: components)
-        
-        let offset = Calendar.current.component(.weekday, from: thisMonth!) - 1
-        
-        for _ in 0..<offset {
-            plainDaysArray.insert(" ", at: 0)
-        }
-        
-        //split every 7 and put those subarrays into one array
-        
-        var daysArray = [[String]]()
-        
-        //loop through each row, that will be the total days divided by 7. ROund it up.
-        var rows: Double = Double(numOfDays) / 7
-        rows.round(.up)
-        
-        for level in 0..<Int(rows) {
-            var rowArray = [String]()
-            
-            var count = 0
-            
-            while count < 7 {
-                
-                let index = (level * 7) + count
-                
-                if index < plainDaysArray.count {
-                    rowArray.append(plainDaysArray[index])
-                } else {
-                    rowArray.append(" ")
-                }
-                
-                count += 1
-                
-            }
-            
-            daysArray.append(rowArray)
-        }
-        
-        return daysArray
-        
-    }
-    
-    func getInfoDate() -> String {
-        
-        if let date = model.availableClasses[selectedDay] {
-            
-            let monthInt = Calendar.current.component(.month, from: date)
-            let month = Calendar.current.monthSymbols[monthInt - 1]
-            
-            return "\(month) \(selectedDay)"
-            
-        } else {
-            return ""
-        }
-    }
-    
-    func getInfoTime() -> String {
-        
-        if let date = model.availableClasses[selectedDay] {
-            
-            let hour = Calendar.current.component(.hour, from: date)
-            let minute = Calendar.current.component(.minute, from: date)
-            
-            if minute == 0 {
-                return "\(hour) AM"
-            } else {
-                return "\(hour):\(minute) AM"
-            }
-            
-        } else {
-            return ""
-        }
-        
-    }
-    
-}

@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct TabViewContainer: View {
-    
+
     let accountModel = AccountModel()
     let bookingModel = BookingModel()
     
     var body: some View {
         
-        TabView{
+        TabView {
             
-            AdditionalDivider(content: BookView().environmentObject(bookingModel))
-                .tabItem {
-                    Image(systemName: "calendar")
-                }
+            AdditionalDivider(content: BookView()
+                                .environmentObject(bookingModel)
+                                .environmentObject(accountModel))
+            .tabItem {
+                Image(systemName: "calendar")
+            }
             
-            AdditionalDivider(content: ProductsView())
+            AdditionalDivider(content: ProductsView().environmentObject(accountModel))
                 .tabItem { Image(systemName: "cart") }
             
         }.onAppear {
             bookingModel.getClasses()
+            accountModel.getData()
         }
     }
 }

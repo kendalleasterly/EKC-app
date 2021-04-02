@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4E616D86AD76510F53C060E9 /* Pods_East_Kickboxing_Club.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1AAA5B4EC7895917870EA3 /* Pods_East_Kickboxing_Club.framework */; };
+		C651401026166F5C0038ED86 /* ClassesAvailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651400F26166F5C0038ED86 /* ClassesAvailable.swift */; };
+		C651401326166F670038ED86 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651401226166F670038ED86 /* Payment.swift */; };
 		C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66C1A2325FDD796005033E9 /* AccountView.swift */; };
+		C67E0D362606DCEF00EDAAEA /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E0D352606DCEF00EDAAEA /* ButtonView.swift */; };
 		C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72CB25FC654E0081BE27 /* AccountModel.swift */; };
 		C69E72D425FC736C0081BE27 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72D325FC736C0081BE27 /* BookView.swift */; };
 		C69E72DC25FC83730081BE27 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72DB25FC83730081BE27 /* Color+Extension.swift */; };
@@ -26,7 +29,10 @@
 
 /* Begin PBXFileReference section */
 		1A1AAA5B4EC7895917870EA3 /* Pods_East_Kickboxing_Club.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_East_Kickboxing_Club.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C651400F26166F5C0038ED86 /* ClassesAvailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassesAvailable.swift; sourceTree = "<group>"; };
+		C651401226166F670038ED86 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		C66C1A2325FDD796005033E9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		C67E0D352606DCEF00EDAAEA /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		C69E72CB25FC654E0081BE27 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		C69E72D325FC736C0081BE27 /* BookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
 		C69E72DB25FC83730081BE27 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -75,6 +81,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		C67E0D342606DCC400EDAAEA /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				C67E0D352606DCEF00EDAAEA /* ButtonView.swift */,
+			);
+			name = SubViews;
+			sourceTree = "<group>";
+		};
 		C69E72D025FC72F00081BE27 /* System */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,8 +116,10 @@
 			children = (
 				C6FF8E6725FC59ED000437F4 /* TabViewContainer.swift */,
 				C69E72D325FC736C0081BE27 /* BookView.swift */,
-				C66C1A2325FDD796005033E9 /* AccountView.swift */,
 				C6EFE27B25FD756300284A28 /* ProductsView.swift */,
+				C66C1A2325FDD796005033E9 /* AccountView.swift */,
+				C651400F26166F5C0038ED86 /* ClassesAvailable.swift */,
+				C651401226166F670038ED86 /* Payment.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -132,8 +148,9 @@
 				C69E72D125FC73350081BE27 /* Models */,
 				C69E72D225FC733D0081BE27 /* Views */,
 				C6FF8E6925FC59EE000437F4 /* Assets.xcassets */,
-				C69E72D025FC72F00081BE27 /* System */,
+				C67E0D342606DCC400EDAAEA /* SubViews */,
 				C62878FD25FD49AB00040418 /* Extensions */,
+				C69E72D025FC72F00081BE27 /* System */,
 			);
 			path = "East Kickboxing Club";
 			sourceTree = "<group>";
@@ -276,7 +293,10 @@
 				C6EFE27F25FD81C300284A28 /* BookingModel.swift in Sources */,
 				C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */,
 				C69E72DC25FC83730081BE27 /* Color+Extension.swift in Sources */,
+				C67E0D362606DCEF00EDAAEA /* ButtonView.swift in Sources */,
 				C6EFE27C25FD756300284A28 /* ProductsView.swift in Sources */,
+				C651401326166F670038ED86 /* Payment.swift in Sources */,
+				C651401026166F5C0038ED86 /* ClassesAvailable.swift in Sources */,
 				C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */,
 				C69E72E025FC86C20081BE27 /* View+Extension.swift in Sources */,
 				C69E72D425FC736C0081BE27 /* BookView.swift in Sources */,
@@ -423,6 +443,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"East Kickboxing Club/Preview Content\"";
 				DEVELOPMENT_TEAM = CWBTM7Q26F;
 				ENABLE_PREVIEWS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "East Kickboxing Club/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

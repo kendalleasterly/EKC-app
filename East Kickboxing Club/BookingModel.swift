@@ -10,41 +10,63 @@ import FirebaseFirestore
 
 class BookingModel: ObservableObject {
     
-    @Published var availableClasses =  [String: Date]()
+    @Published var availableClasses =  [String: [Date]]()
+    @Published var selectedDate = Date()
     
     let db = Firestore.firestore()
     
     func getClasses() {
         
-        db.collection("test-classes").getDocuments { (snapshot, error) in
-            
-            if let err = error {
-                print("error in getting classes: " + err.localizedDescription)
-            } else {
-                if let documents = snapshot?.documents {
-                    
-                    var availableClassesDict = [String: Date]()
-                    
-                    documents.forEach { document in
+        //get the first of this month
+        let calendar = Calendar.current
+        
+        var components = DateComponents()
+        components.year = calendar.component(.year, from: Date())
+        components.month = calendar.component(.month, from: Date())
+        
+        let firstOfMonth = calendar.date(from: components)
+        
+        guard firstOfMonth != nil else { fatalError("the first of the month was nil..?") }
+        
+        db.collection("classes")
+            .whereField("date", isGreaterThanOrEqualTo: FirebaseFirestore.Timestamp(date: firstOfMonth!))
+            .getDocuments { (snapshot, error) in
+                
+                if let err = error {
+                    print("error in getting classes: " + err.localizedDescription)
+                } else {
+                    if let documents = snapshot?.documents {
                         
-                        let data = document.data()
-                        let date = data["date"] as! Timestamp
-                        let day = Calendar.current.component(.day, from: date.dateValue())
+                        var availableClassesDict = [String: [Date]]()
                         
-                        let attendees = data["attendees"] as! [String]
-                        
-                        if attendees.count < 8 {
+                        documents.forEach { document in
                             
-                            availableClassesDict[String(day)] = date.dateValue()
+                            let data = document.data()
+                            let date = data["date"] as! Timestamp
+                            let dateValue = date.dateValue()
+                            let day = calendar.component(.day, from: dateValue)
                             
+                            let attendees = data["attendees"] as! [String]
+                            
+                            if attendees.count < 8 {
+                                
+                                if availableClassesDict[String(day)] != nil {
+
+                                    availableClassesDict[String(day)]!.append(dateValue)
+                                } else {
+                                    
+                                    availableClassesDict[String(day)] = [dateValue]
+                                    
+                                }
+                            }
                         }
+                        
+                        self.availableClasses = availableClassesDict
                     }
-                    
-                    print(availableClassesDict)
-                    self.availableClasses = availableClassesDict
-                    
                 }
             }
-        }
     }
+    
+    func bookClass()
+    
 }

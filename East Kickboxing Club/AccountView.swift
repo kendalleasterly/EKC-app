@@ -26,9 +26,20 @@ that link will give you all the information you need. You can also animate it so
 */
 
 struct AccountView: View {
+    
+    @Environment (\.self.presentationMode) var presentationMode
+    
     var body: some View {
         
         VStack {
+            
+            
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image("x")
+                    .leading()
+            })
             
             Spacer()
             
@@ -62,10 +73,10 @@ struct AccountView: View {
                     
             }.padding(.bottom)
             
-            
 
             
-        }.padding()
+        }.padding(.horizontal, 10)
+        .padding(.vertical)
         
     }
 }
