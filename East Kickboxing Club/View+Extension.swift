@@ -64,11 +64,11 @@ extension View {
     
     func customNavBar(proxy: GeometryProxy,
                       title: String,
-                      dissmissView: @escaping () -> Void) -> some View {
+                      dissmissViewFunction: @escaping () -> Void) -> some View {
         
         return self.modifier(CustomNavBar(title: title,
                                           leading: Button( action: {
-                                            dissmissView()
+                                            dissmissViewFunction()
                                           }, label: {
                                             AnyView(Image("back"))
                                           }), trailing: nil, proxy: proxy))

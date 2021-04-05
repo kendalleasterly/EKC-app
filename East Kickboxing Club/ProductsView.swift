@@ -10,20 +10,15 @@ import SwiftUI
 struct ProductsView: View {
     
     @EnvironmentObject var accountModel: AccountModel
-    let products = [
-        Product(id: "threepack", title: "3 Pack", description: "Save $5!", price: 4000),
-        Product(id: "fourpack", title: "4 Pack", description: "Save $10!", price: 5000),
-        Product(id: "tenpack", title: "10 Pack", description: "Save $20!", price: 13000),
-        Product(id: "membership", title: "Membership", description: "Unlimited classes for a month + one personal training session!", price: 18000),
-    ]
+    var model = ProductsModel()
     
     var body: some View {
         NavigationView {
-            ScrollView {
+            ScrollView (showsIndicators: false) {
                 
                 VStack(spacing: 20) {
                     
-                    ForEach(products) {product in
+                    ForEach(model.products) {product in
                         
                         VStack {
                             
@@ -49,17 +44,17 @@ struct ProductsView: View {
                             if let account = accountModel.account {
                                 if product.id == "membership" && account.isMember {
                                     
-                                    ButtonView(text: "Next", destination: AnyView(Payment()), disabled: true)
+                                    ButtonView(text: "Next", destination: AnyView(Payment(product)), disabled: true)
                                 } else {
-                                    ButtonView(text: "Next", destination: AnyView(Payment()), disabled: false)
+                                    ButtonView(text: "Next", destination: AnyView(Payment(product)), disabled: false)
                                 }
                             } else {
-                                ButtonView(text: "Next", destination: AnyView(Payment()), disabled: false)
+                                ButtonView(text: "Next", destination: AnyView(Payment(product)), disabled: false)
                             }
                             
                         }.carded()
                     }
-                }
+                }.padding(.bottom)
                 
             }.header(title: "Products")
         }

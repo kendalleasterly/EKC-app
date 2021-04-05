@@ -9,19 +9,51 @@ import SwiftUI
 
 struct Payment: View {
     
-    @EnvironmentObject var model: BookingModel
+    //i ask for the product
+    var product: Product?
+    
+    @EnvironmentObject var bookingModel: BookingModel
+    @EnvironmentObject var accountModel: AccountModel
+    var productsModel = ProductsModel()
     @Environment(\.presentationMode) var presentationMode
+    
+    init(_ product: Product) {
+        self.product = product
+    }
+    
+    init() {
+        self.product = nil
+    }
     
     var body: some View {
         GeometryReader{ proxy in
             
             VStack {
-                Text("Payment")
                 
-                ButtonView(text: "Done") {
-                    
-                }
-            }.customNavBar(proxy: proxy, title: "Payment") {
+                VStack {
+                    if product == nil {
+                        //pay for a booking
+                        
+                        ButtonView(text: "Done", destination: AnyView(DoneView())) {
+                            bookingModel.bookClass(isMember: accountModel.account.isMember)
+                        }
+                        
+                    } else {
+                        //pay for a product
+                        
+                        ButtonView(text: "Done", destination: AnyView(DoneView())) {
+                            if product!.id != "membership" {
+                                productsModel.addCreditsFrom(product: product!)
+                            } else {
+                                productsModel.makeMember()
+                            }
+                        }
+                        
+                    }
+                }.carded()
+                
+            }.padding()
+            .customNavBar(proxy: proxy, title: "Payment") {
                 presentationMode.wrappedValue.dismiss()
             }
         }

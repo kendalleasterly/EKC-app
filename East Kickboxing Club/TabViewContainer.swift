@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct TabViewContainer: View {
 
@@ -29,6 +30,7 @@ struct TabViewContainer: View {
         }.onAppear {
             bookingModel.getClasses()
             accountModel.getData()
+            accountModel.getNextBooking()
         }
     }
 }

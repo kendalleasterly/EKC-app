@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import GoogleSignIn
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,8 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
+        let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
+        let navigationModel = (UIApplication.shared.delegate as! AppDelegate).navigationModel
+        
         // Create the SwiftUI view that provides the window contents.
-        let contentView = TabViewContainer()
+        let contentView = MainControllerView().environmentObject(googleDelegate).environmentObject(navigationModel)
         
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()
@@ -30,6 +34,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)
+            
+            GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+            
             self.window = window
             window.makeKeyAndVisible()
         }

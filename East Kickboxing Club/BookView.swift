@@ -28,88 +28,88 @@ struct BookView: View {
     
     var body: some View {
         NavigationView{
+            
+            ScrollView(showsIndicators: false) {
                 
-                ScrollView(showsIndicators: false) {
-                    
-                    LazyVGrid(columns: collumns, content: {
-                        ForEach(0..<getDays().count) { day in
-                            
-                            let currentItem: String = getDays()[day]
-                            
-                            if currentItem == "S" ||
-                                currentItem == "M" ||
-                                currentItem == "W" ||
-                                currentItem == "T" ||
-                                currentItem == "F" {
-                                
-                                Text(currentItem)
-                                    .foregroundColor(.label)
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                
-                            } else {
-                                
-                                DaySubView(availableClasses: Array(model.availableClasses.keys), selectedDay: $selectedDay, day: currentItem)
-                                
-                            }
-                        }
-                    }).carded(py: 28).padding(.vertical)
-                    
-                    if model.availableClasses.keys.contains(selectedDay) {
+                LazyVGrid(columns: collumns, content: {
+                    ForEach(0..<getDays().count) { day in
                         
+                        let currentItem: String = getDays()[day]
                         
-                        ForEach(model.availableClasses[selectedDay]!, id:\.self) {date in
+                        if currentItem == "S" ||
+                            currentItem == "M" ||
+                            currentItem == "W" ||
+                            currentItem == "T" ||
+                            currentItem == "F" {
                             
-                            VStack {
-                                
-                                Text(getInfoDate(date))
-                                    .trailing()
-                                    .foregroundColor(.secondaryLabel)
-                                
-                                VStack(alignment: .leading) {
-                                    
-                                    Group {
-                                        Text("Time")
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(.secondaryLabel)
-                                        
-                                        
-                                        Text(getInfoTime(date))
-                                            .fontWeight(.semibold)
-                                            .font(.title3)
-                                    }
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text("Price")
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(.secondaryLabel)
-                                        
-                                        Text("$15.00")
-                                            .fontWeight(.semibold)
-                                            .font(.title3)
-                                    }.padding(.vertical, 10)
-                                    
-                                    Group {
-                                        Text("Teacher")
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(.secondaryLabel)
-                                        
-                                        Text("Jason Easterly")
-                                            .fontWeight(.semibold)
-                                            .font(.title3)
-                                    }
-                                    
-                                }.leading()
-                                
-                                ButtonView(text: "Next", destination: decideNextStep(), function: {
-                                    model.selectedDate = date
-                                }).padding(.top)
-                            }.carded()
-                            .padding(.bottom)
+                            Text(currentItem)
+                                .foregroundColor(.label)
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            
+                        } else {
+                            
+                            DaySubView(availableClasses: Array(model.availableClasses.keys), selectedDay: $selectedDay, day: currentItem)
+                            
                         }
                     }
+                }).carded(py: 28).padding(.vertical)
+                
+                if model.availableClasses.keys.contains(selectedDay) {
                     
-                }.header(title: "Book")
+                    
+                    ForEach(model.availableClasses[selectedDay]!, id:\.self) {date in
+                        
+                        VStack {
+                            
+                            Text(getInfoDate(date))
+                                .trailing()
+                                .foregroundColor(.secondaryLabel)
+                            
+                            VStack(alignment: .leading) {
+                                
+                                Group {
+                                    Text("Time")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondaryLabel)
+                                    
+                                    
+                                    Text(date.getTime())
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                }
+                                
+                                VStack(alignment: .leading) {
+                                    Text("Price")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondaryLabel)
+                                    
+                                    Text("$15.00")
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                }.padding(.vertical, 10)
+                                
+                                Group {
+                                    Text("Teacher")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondaryLabel)
+                                    
+                                    Text("Jason Easterly")
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                }
+                                
+                            }.leading()
+                            
+                            ButtonView(text: "Next", destination: decideNextStep(), function: {
+                                model.selectedDate = date
+                            }).padding(.top)
+                        }.carded()
+                        .padding(.bottom)
+                    }
+                }
+                
+            }.header(title: "Book")
         }
     }
 }
@@ -161,38 +161,10 @@ extension BookView {
         return "\(month) \(selectedDay)"
     }
     
-    func getInfoTime(_ date: Date) -> String {
-        
-        var hour = Calendar.current.component(.hour, from: date)
-        let minute = Calendar.current.component(.minute, from: date)
-        
-        
-        if hour < 12 {
-            if minute != 0 {
-                return "\(hour):\(minute) AM"
-            } else {
-                return "\(hour) AM"
-            }
-        } else {
-            
-            hour -= 12
-            
-            if minute != 0 {
-                return "\(hour):\(minute) PM"
-            } else {
-                return "\(hour) PM"
-            }
-        }
-    }
-    
     func decideNextStep() -> AnyView {
         
-        if let account = accountModel.account {
-            if account.isMember || account.freeClasses > 0 {
-                return AnyView(ClassesAvailable())
-            } else {
-                return AnyView(Payment())
-            }
+        if accountModel.account.isMember || accountModel.account.freeClasses > 0 {
+            return AnyView(ClassesAvailable())
         } else {
             return AnyView(Payment())
         }

@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import GoogleSignIn
 
 /*
-use this: https://blckbirds.com/post/side-menu-hamburger-menu-in-swiftui/
+ use this: https://blckbirds.com/post/side-menu-hamburger-menu-in-swiftui/
  
  READ IT ALL BEFORE DOING ANYTHING
  
-that link will give you all the information you need. You can also animate it something like reddit
+ that link will give you all the information you need. You can also animate it something like reddit
  if you'd like, or just do it regularly. You don't have to shift the main content, actually I would prefer if you didn't. i want the menu to just do what it's doing without shifting the content. And this
  behavior should preferably be wrapped in a view modifer. When I say that I mean EVERYTHING, including
  the top bar, the button that activates it, all of it. The way this will work will be the modifier
@@ -23,11 +25,13 @@ that link will give you all the information you need. You can also animate it so
  i'll only implement it if it seems like it won't take too long or the current way is REALLY bad.
  
  
-*/
+ */
 
 struct AccountView: View {
     
     @Environment (\.self.presentationMode) var presentationMode
+    @EnvironmentObject var navigationModel: NavigationModel
+    @EnvironmentObject var model: AccountModel
     
     var body: some View {
         
@@ -49,35 +53,41 @@ struct AccountView: View {
             Spacer()
             
             VStack(alignment: .leading) {
-                InfoBar(icon: "user", text: "Kendall Easterly")
                 
-                InfoBar(icon: "mail", text: "qfletcher89@gmail.com")
+                InfoBar(icon: "user", text: model.account.name)
                 
-                InfoBar(icon: "calendar", text: "Your next class is Thursday")
+                InfoBar(icon: "mail", text: model.account.email)
                 
-                InfoBar(icon: "crown", text: "You are a member")
+                InfoBar(icon: "calendar", text: model.nextBooking)
+                
+                InfoBar(icon: "crown", text: model.account.isMember ? "You are a member" : "You are not a member")
             }.leading()
             
             
             Spacer()
             
-            Button {
-                print("sign out")
-            } label: {
-                Text("Sign Out")
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 40)
-                    .padding(.vertical, 5)
-                    .foregroundColor(.secondaryBackground)
-                    .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.accent))
-                    
-            }.padding(.bottom)
-            
-
+            ButtonView(text: "Sign Out") {
+                
+                let firebaseAuth = Auth.auth()
+                
+                do {
+                  try firebaseAuth.signOut()
+                } catch let signOutError as NSError {
+                  print ("Error signing out: %@", signOutError)
+                }
+                
+                presentationMode.wrappedValue.dismiss()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    navigationModel.state = .signedOut
+                }
+                
+                print("let the navigation model know what's up")
+                
+            }
             
         }.padding(.horizontal, 10)
         .padding(.vertical)
-        
     }
 }
 

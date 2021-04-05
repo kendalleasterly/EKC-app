@@ -8,6 +8,8 @@ target 'East Kickboxing Club' do
   # Pods for East Kickboxing Club
 pod 'Firebase/Analytics'
 pod 'Firebase/Firestore'
+pod 'Firebase/Auth'
+pod 'GoogleSignIn'
 end
 
 #post_install do |installer|
