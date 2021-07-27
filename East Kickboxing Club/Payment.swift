@@ -31,6 +31,11 @@ struct Payment: View {
             VStack {
                 
                 VStack {
+                    
+                    Text("Enter your payment details")
+                        
+                
+                    
                     if product == nil {
                         //pay for a booking
                         
@@ -51,7 +56,6 @@ struct Payment: View {
                         
                     }
                 }.carded()
-                
             }.padding()
             .customNavBar(proxy: proxy, title: "Payment") {
                 presentationMode.wrappedValue.dismiss()

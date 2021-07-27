@@ -9,6 +9,8 @@ import Foundation
 import GoogleSignIn
 import FirebaseAuth
 import FirebaseFirestore
+import Alamofire
+import SwiftyJSON
 
 class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
     
@@ -41,22 +43,30 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
             } else {
                 print("we are signied in with firebase")
                 
+                
+                
                 //you must create their doucment before continuing
+            
+                AF.request("https://east-kickboxing-club.herokuapp.com/create-stripe-customer").responseData { responseData in
+                    
+                    guard let responseData = responseData.data else {return}
+                    let responseDataJSON = JSON(responseData)
+                    print(responseDataJSON)
+                    
+                }
                 
                 let db = Firestore.firestore()
-                
                 
                 if let user = result?.user {
                     
                     if user.email != nil && user.displayName != nil{
                         
                         db.collection("users").document(user.uid).setData([
-                            "daysLeft":-1,
+                            "name":user.displayName!,
                             "email": user.email!,
                             "freeClasses":0,
-                            "isMember":false,
-                            "name":user.displayName!
-                            
+                            "daysLeft":-1,
+                            "isMember":false
                         ])
                         
                         self.navigationModel.state = .signedIn
@@ -65,7 +75,7 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
                         print("either the user didn't have an email or they didn't have a name")
                     }
                 } else {
-                    print("there was an error retrienving the user from firebase after signing in")
+                    print("there was an error retrienving the user from firebase authentication after signing in")
                 }
             }
         }

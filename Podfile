@@ -10,6 +10,9 @@ pod 'Firebase/Analytics'
 pod 'Firebase/Firestore'
 pod 'Firebase/Auth'
 pod 'GoogleSignIn'
+pod 'Stripe'
+pod 'Alamofire'
+pod 'SwiftyJSON'
 end
 
 #post_install do |installer|

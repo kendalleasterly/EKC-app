@@ -54,17 +54,20 @@ class BookingModel: ObservableObject {
                             
                             let attendees = data["attendees"] as! [String]
                             
-                            if attendees.count < 8 {
-                                
-                                if availableClassesDict[String(day)] != nil {
+                            if dateValue.timeIntervalSinceNow > 0 {
+                                if attendees.count < 8 {
                                     
-                                    availableClassesDict[String(day)]!.append(dateValue)
-                                } else {
-                                    
-                                    availableClassesDict[String(day)] = [dateValue]
-                                    
+                                    if availableClassesDict[String(day)] != nil {
+                                        
+                                        availableClassesDict[String(day)]!.append(dateValue)
+                                    } else {
+                                        
+                                        availableClassesDict[String(day)] = [dateValue]
+                                        
+                                    }
                                 }
                             }
+                            
                         }
                         
                         print("the final available classes are", availableClassesDict.description)
