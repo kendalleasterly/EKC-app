@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class AccountModel: ObservableObject {
     
-    @Published var account = Account(isMember: false, name: "Loading...", freeClasses: 0, email: "")
+    @Published var account = Account(id: "", isMember: false, name: "Loading...", freeClasses: 0, email: "")
     @Published var nextBooking = "You have no upcoming classes"
     
     let db = Firestore.firestore()
@@ -30,10 +30,13 @@ class AccountModel: ObservableObject {
                         
                         if let data = document.data() {
                             
-                            let acc = Account(isMember: data["isMember"] as! Bool,
-                                              name: data["name"] as! String,
-                                              freeClasses: data["freeClasses"] as! Int,
-                                              email: data["email"] as! String)
+                            let acc = Account(
+                                id: document.documentID,
+                                isMember: data["isMember"] as! Bool,
+                                name: data["name"] as! String,
+                                freeClasses: data["freeClasses"] as! Int,
+                                email: data["email"] as! String
+                            )
                             
                             self.account = acc
                         }
@@ -43,9 +46,12 @@ class AccountModel: ObservableObject {
                 }
             }
         }
+        
+        getNextBooking()
+        
     }
     
-    func getNextBooking() {
+    private func getNextBooking() {
         
         if let uid = Auth.auth().currentUser?.uid {
             
@@ -106,6 +112,7 @@ class AccountModel: ObservableObject {
 
 struct Account {
     
+    var id: String
     var isMember: Bool
     var name: String
     var freeClasses: Int

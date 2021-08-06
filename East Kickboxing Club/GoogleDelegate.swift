@@ -9,18 +9,14 @@ import Foundation
 import GoogleSignIn
 import FirebaseAuth
 import FirebaseFirestore
-import Alamofire
-import SwiftyJSON
 
 class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
     
-    let navigationModel: NavigationModel
-    
-    init(navigationModel: NavigationModel) {
-        self.navigationModel = navigationModel
-    }
-    
+    //sign in with google auth
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        print("sign in function called")
+        
         if let err = error {
             
             if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
@@ -36,41 +32,38 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
         guard let authentication = user.authentication else {return}
         
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        //TODO: do something here that checks if they have an account already. If not, you need to add their document in database
+        //once we have signed in with google auth, we can then sign in with firebase (two different things)
+        
         Auth.auth().signIn(with: credential) { (result, error) in
             if let err = error {
                 print("error signing in google user with firebase", err)
             } else {
-                print("we are signied in with firebase")
-                
-                
+                print("successfully signed in with firebase")
                 
                 //you must create their doucment before continuing
-            
-                AF.request("https://east-kickboxing-club.herokuapp.com/create-stripe-customer").responseData { responseData in
-                    
-                    guard let responseData = responseData.data else {return}
-                    let responseDataJSON = JSON(responseData)
-                    print(responseDataJSON)
-                    
-                }
-                
-                let db = Firestore.firestore()
                 
                 if let user = result?.user {
-                    
-                    if user.email != nil && user.displayName != nil{
-                        
-                        db.collection("users").document(user.uid).setData([
-                            "name":user.displayName!,
-                            "email": user.email!,
-                            "freeClasses":0,
-                            "daysLeft":-1,
-                            "isMember":false
-                        ])
-                        
-                        self.navigationModel.state = .signedIn
-                        
+                    if let email = user.email, let name = user.displayName{
+
+                        self.userDoesExist(uid: user.uid) { doesExist in
+                            
+                            if !doesExist {
+                                
+                                print("user did not exist")
+                                
+                                let stripeModel = StripeModel()
+                                
+                                stripeModel.addUser(name: name, email: email, uid: user.uid) { stripeCustomerID in
+                                    
+                                    self.createNewUser(name: name, email: email, uid: user.uid, stripeCustomerID: stripeCustomerID)
+                                }
+                            } else {
+                                print("user did exist")
+                            }
+                        }
+
+//                        self.navigationModel.state = .signedIn
+
                     } else {
                         print("either the user didn't have an email or they didn't have a name")
                     }
@@ -80,4 +73,41 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
             }
         }
     }
+    
+    private func userDoesExist(uid: String, resolve: @escaping (Bool) -> Void) {
+        
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(uid).getDocument { snapshot, error in
+            
+            if let err = error {
+                print("error getting document in user does exist:", err.localizedDescription)
+                return
+            }
+            
+            if let document = snapshot, document.exists {
+                resolve(true)
+            } else {
+                resolve(false)
+            }
+        }
+    }
+    
+    private func createNewUser(name: String, email: String, uid: String, stripeCustomerID: String) {
+        
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(uid).setData([
+            "name":name,
+            "email": email,
+            "freeClasses":0,
+            "daysLeft":-1,
+            "isMember":false,
+            "stripeCustomerID": stripeCustomerID
+        ])
+
+        print("set the user's data")
+        
+    }
+    
 }

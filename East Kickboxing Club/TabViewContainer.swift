@@ -10,8 +10,16 @@ import GoogleSignIn
 
 struct TabViewContainer: View {
 
-    let accountModel = AccountModel()
-    let bookingModel = BookingModel()
+    let accountModel: AccountModel
+    let bookingModel: BookingModel
+    
+    init() {
+        let accountModel = AccountModel()
+        let bookingModel = BookingModel(accountModel: accountModel)
+        
+        self.accountModel = accountModel
+        self.bookingModel = bookingModel
+    }
     
     var body: some View {
         
@@ -30,7 +38,6 @@ struct TabViewContainer: View {
         }.onAppear {
             bookingModel.getClasses()
             accountModel.getData()
-            accountModel.getNextBooking()
         }
     }
 }

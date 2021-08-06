@@ -13,10 +13,9 @@
 		C651401026166F5C0038ED86 /* ClassesAvailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651400F26166F5C0038ED86 /* ClassesAvailable.swift */; };
 		C651401326166F670038ED86 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651401226166F670038ED86 /* Payment.swift */; };
 		C6527B3C2617A7200049E062 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6527B3B2617A7200049E062 /* LandingView.swift */; };
-		C6527B402617A7620049E062 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6527B3F2617A7620049E062 /* SignInView.swift */; };
-		C6527B432617A76C0049E062 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6527B422617A76C0049E062 /* SignUpView.swift */; };
 		C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66C1A2325FDD796005033E9 /* AccountView.swift */; };
 		C67E0D362606DCEF00EDAAEA /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E0D352606DCEF00EDAAEA /* ButtonView.swift */; };
+		C691D21226B0D343009009B2 /* StripeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C691D21126B0D343009009B2 /* StripeModel.swift */; };
 		C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72CB25FC654E0081BE27 /* AccountModel.swift */; };
 		C69E72D425FC736C0081BE27 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72D325FC736C0081BE27 /* BookView.swift */; };
 		C69E72DC25FC83730081BE27 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69E72DB25FC83730081BE27 /* Color+Extension.swift */; };
@@ -43,10 +42,9 @@
 		C651400F26166F5C0038ED86 /* ClassesAvailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassesAvailable.swift; sourceTree = "<group>"; };
 		C651401226166F670038ED86 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		C6527B3B2617A7200049E062 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
-		C6527B3F2617A7620049E062 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		C6527B422617A76C0049E062 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		C66C1A2325FDD796005033E9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		C67E0D352606DCEF00EDAAEA /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		C691D21126B0D343009009B2 /* StripeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeModel.swift; sourceTree = "<group>"; };
 		C69E72CB25FC654E0081BE27 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		C69E72D325FC736C0081BE27 /* BookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
 		C69E72DB25FC83730081BE27 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -104,8 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				C6527B3B2617A7200049E062 /* LandingView.swift */,
-				C6527B3F2617A7620049E062 /* SignInView.swift */,
-				C6527B422617A76C0049E062 /* SignUpView.swift */,
 			);
 			name = "Sign Up Flow";
 			sourceTree = "<group>";
@@ -139,6 +135,7 @@
 				C69E72CB25FC654E0081BE27 /* AccountModel.swift */,
 				C6EFE27E25FD81C300284A28 /* BookingModel.swift */,
 				C61B7567261A7D370073246F /* ProductsModel.swift */,
+				C691D21126B0D343009009B2 /* StripeModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -146,8 +143,8 @@
 		C69E72D225FC733D0081BE27 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C6BBCB4C2617B97900B0FD3E /* MainControllerView.swift */,
 				C6527B3A2617A7070049E062 /* Sign Up Flow */,
+				C6BBCB4C2617B97900B0FD3E /* MainControllerView.swift */,
 				C6FF8E6725FC59ED000437F4 /* TabViewContainer.swift */,
 				C69E72D325FC736C0081BE27 /* BookView.swift */,
 				C6EFE27B25FD756300284A28 /* ProductsView.swift */,
@@ -344,6 +341,7 @@
 				C6FF8E6625FC59ED000437F4 /* SceneDelegate.swift in Sources */,
 				C6527B3C2617A7200049E062 /* LandingView.swift in Sources */,
 				C6BBCB4D2617B97900B0FD3E /* MainControllerView.swift in Sources */,
+				C691D21226B0D343009009B2 /* StripeModel.swift in Sources */,
 				C6FF8E6825FC59ED000437F4 /* TabViewContainer.swift in Sources */,
 				C6EFE27F25FD81C300284A28 /* BookingModel.swift in Sources */,
 				C66C1A2425FDD796005033E9 /* AccountView.swift in Sources */,
@@ -353,10 +351,8 @@
 				C67E0D362606DCEF00EDAAEA /* ButtonView.swift in Sources */,
 				C61B7565261A75C00073246F /* Date+Extension.swift in Sources */,
 				C6EFE27C25FD756300284A28 /* ProductsView.swift in Sources */,
-				C6527B402617A7620049E062 /* SignInView.swift in Sources */,
 				C651401326166F670038ED86 /* Payment.swift in Sources */,
 				C651401026166F5C0038ED86 /* ClassesAvailable.swift in Sources */,
-				C6527B432617A76C0049E062 /* SignUpView.swift in Sources */,
 				C69E72CC25FC654E0081BE27 /* AccountModel.swift in Sources */,
 				C69E72E025FC86C20081BE27 /* View+Extension.swift in Sources */,
 				C6A48CD32617ED8100D79C93 /* DoneView.swift in Sources */,

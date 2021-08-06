@@ -54,9 +54,13 @@ struct ClassesAvailable: View {
                             }).padding(.trailing)
                         
                         ButtonView(text: "Yes", destination: AnyView(DoneView())) {
-                            bookingModel.bookingWillUseFreeClasses = true
                             
-                            bookingModel.bookClass(isMember: accountModel.account.isMember)
+                            if accountModel.account.isMember || accountModel.account.freeClasses > 0 {
+                                bookingModel.bookClass(willUseFreeClasses: true)
+                            } else {
+                                print("didn't add class because user lacked sufficient resources")
+                            }
+                            
                         }
                     }.padding(.horizontal)
                 }.carded(py: 24)

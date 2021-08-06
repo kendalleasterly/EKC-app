@@ -26,10 +26,15 @@ struct MainControllerView: View {
             }
             
         }.onAppear {
-//            GIDSignIn.sharedInstance().restorePreviousSignIn()
             
-            if Auth.auth().currentUser != nil {
-                navigationModel.state = .signedIn
+            Auth.auth().addStateDidChangeListener { atuh, user in
+                if user != nil {
+                    navigationModel.state = .signedIn
+                    print("we already had a current user")
+                } else {
+    //                GIDSignIn.sharedInstance().restorePreviousSignIn()
+                    print("we didn't have a current user, showing landing view")
+                }
             }
         }
     }

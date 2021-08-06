@@ -54,9 +54,9 @@ struct ProductsView: View {
                             
                         }.carded()
                     }
-                }.padding(.bottom)
+                }.padding([.bottom, .horizontal])
                 
-            }.header(title: "Products")
+            }.header(title: "Products", horizontalPadding: false)
         }
     }
 }

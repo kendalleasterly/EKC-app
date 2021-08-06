@@ -11,7 +11,7 @@ struct BookView: View {
     
     @EnvironmentObject var model: BookingModel
     @EnvironmentObject var accountModel: AccountModel
-    @State var selectedDay = String(Calendar.current.component(.day, from: Date()))
+    @State var selectedDay = Int(Calendar.current.component(.day, from: Date()))
     @State var isShowingAccount = false
     
     let collumns = [
@@ -49,37 +49,36 @@ struct BookView: View {
                             
                         } else {
                             
-                            DaySubView(availableClasses: Array(model.availableClasses.keys), selectedDay: $selectedDay, day: currentItem)
+                            DaySubView(availableClasses: Array(model.availableClasses.keys), selectedDay: $selectedDay, day: Int(currentItem)!)
                             
                         }
                     }
-                }).carded(py: 28).padding(.vertical)
+                }).carded(py: 28)
+                .padding(.all)
                 
                 if model.availableClasses.keys.contains(selectedDay) {
                     
-                    
-                    ForEach(model.availableClasses[selectedDay]!, id:\.self) {date in
+                    ForEach(model.availableClasses[selectedDay]!) {kickboxingClass in
                         
                         VStack {
                             
-                            Text(getInfoDate(date))
+                            Text(getInfoDate(kickboxingClass.date))
                                 .trailing()
                                 .foregroundColor(.secondaryLabel)
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 10) {
                                 
-                                Group {
+                                VStack (alignment: .leading, spacing: 5) {
                                     Text("Time")
                                         .fontWeight(.semibold)
                                         .foregroundColor(.secondaryLabel)
                                     
-                                    
-                                    Text(date.getTime())
+                                    Text(kickboxingClass.date.getTime())
                                         .fontWeight(.semibold)
                                         .font(.title3)
                                 }
                                 
-                                VStack(alignment: .leading) {
+                                VStack (alignment: .leading, spacing: 5){
                                     Text("Price")
                                         .fontWeight(.semibold)
                                         .foregroundColor(.secondaryLabel)
@@ -87,29 +86,43 @@ struct BookView: View {
                                     Text("$15.00")
                                         .fontWeight(.semibold)
                                         .font(.title3)
-                                }.padding(.vertical, 10)
+                                }
                                 
-                                Group {
-                                    Text("Teacher")
+                                VStack (alignment: .leading, spacing: 5){
+                                    Text("Type")
                                         .fontWeight(.semibold)
                                         .foregroundColor(.secondaryLabel)
                                     
-                                    Text("Jason Easterly")
+                                    Text(getClassType(kickboxingClass: kickboxingClass))
                                         .fontWeight(.semibold)
                                         .font(.title3)
                                 }
                                 
+                                VStack (alignment: .leading, spacing: 5){
+                                    Text("Attendees")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondaryLabel)
+                                    
+                                    Text(getAttendees(kickboxingClass: kickboxingClass))
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                }
+                                
+                                
+                                
                             }.leading()
                             
                             ButtonView(text: "Next", destination: decideNextStep(), function: {
-                                model.selectedDate = date
+                                model.selectedClass = kickboxingClass
                             }).padding(.top)
                         }.carded()
-                        .padding(.bottom)
+                        .padding([.bottom, .horizontal])
                     }
                 }
                 
-            }.header(title: "Book")
+            }
+            .header(title: "Book", horizontalPadding: false)
+            
         }
     }
 }
@@ -169,14 +182,54 @@ extension BookView {
             return AnyView(Payment())
         }
     }
+    
+    func getClassType(kickboxingClass: Class) -> String {
+        
+        switch kickboxingClass.type {
+        case "adult":
+            return "For adults"
+        case "kid":
+            return "For kids"
+        default:
+            return "For adults"
+        }
+    }
+    
+    func getAttendees(kickboxingClass: Class) -> String {
+        
+        let attendees = kickboxingClass.attendees
+        
+        var attendeesString = ""
+        
+        if (attendees.count == 0) {
+            attendeesString = "None yet, be the first!"
+        } else if (attendees.count == 1) {
+            attendeesString = attendees[0].name
+        } else {
+            
+            attendees.forEach { attendee in
+                
+                if (attendees[0].id != attendee.id) {
+                    
+                    attendeesString = "\(attendeesString), \(attendee.name)"
+                    
+                } else {
+                    attendeesString = attendee.name
+                }
+            }
+        }
+        
+        return attendeesString
+        
+    }
 }
 
 
 struct DaySubView: View {
     
-    let availableClasses: [String]
-    @Binding var selectedDay: String
-    let day: String
+    let availableClasses: [Int]
+    @Binding var selectedDay: Int
+    let day: Int
     
     var body: some View {
         
@@ -193,7 +246,7 @@ struct DaySubView: View {
                     Circle()
                         .foregroundColor(availableClasses.contains(day) ? .accent : .tertiaryLabel)
                     
-                    Text(day)
+                    Text(String(day))
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.secondaryBackground)
@@ -205,7 +258,7 @@ struct DaySubView: View {
                 
                 
             } else {
-                Text(day)
+                Text(String(day))
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundColor(availableClasses.contains(day) ? .accent : .tertiaryLabel)

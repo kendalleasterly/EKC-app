@@ -40,7 +40,7 @@ struct Payment: View {
                         //pay for a booking
                         
                         ButtonView(text: "Done", destination: AnyView(DoneView())) {
-                            bookingModel.bookClass(isMember: accountModel.account.isMember)
+                            bookingModel.bookClass()
                         }
                         
                     } else {

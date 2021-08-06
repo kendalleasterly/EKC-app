@@ -21,46 +21,20 @@ extension View {
         return self.modifier(TrailingModifier())
     }
     
-    func carded() -> some View {
-        return self.modifier(CardedModifier())
-    }
-    
-    func carded(py: CGFloat) -> some View {
+    func carded(py: CGFloat = 32) -> some View {
         return self.modifier(CardedModifier(px: py))
     }
     
     
     func customNavBar(proxy: GeometryProxy,
                       title: String,
-                      _ leading: Button<AnyView>,
-                      _ trailing: Button<AnyView>) -> some View {
+                      leading: Button<AnyView>? = nil,
+                      trailing: Button<AnyView>? = nil) -> some View {
         
         return self.modifier(CustomNavBar(title: title, leading: leading, trailing: trailing, proxy: proxy))
         
     }
-    
-    func customNavBar(proxy: GeometryProxy,
-                      title: String,
-                      leading: Button<AnyView>) -> some View {
-        
-        return self.modifier(CustomNavBar(title: title, leading: leading, trailing: nil, proxy: proxy))
-        
-    }
-    
-    func customNavBar(proxy: GeometryProxy,
-                      title: String,
-                      trailing: Button<AnyView>) -> some View {
-        
-        return self.modifier(CustomNavBar(title: title, leading: nil, trailing: trailing, proxy: proxy))
-        
-    }
-    
-    func customNavBar(proxy: GeometryProxy,
-                      title: String) -> some View {
-        
-        return self.modifier(CustomNavBar(title: title, leading: nil, trailing: nil, proxy: proxy))
-        
-    }
+
     
     func customNavBar(proxy: GeometryProxy,
                       title: String,
@@ -75,8 +49,8 @@ extension View {
         
     }
     
-    func header(title: String) -> some View{
-        return self.modifier(HeaderModifier(title: title))
+    func header(title: String, horizontalPadding: Bool = true) -> some View{
+        return self.modifier(HeaderModifier(title: title, horizontalPadding: horizontalPadding))
     }
     
 }
@@ -114,7 +88,9 @@ struct TrailingModifier: ViewModifier {
 
 struct CardedModifier: ViewModifier {
     
-    var px: CGFloat = 32
+    @Environment(\.colorScheme) var colorScheme
+    
+    var px: CGFloat
     
     func body(content: Content) -> some View {
         
@@ -123,7 +99,9 @@ struct CardedModifier: ViewModifier {
             .padding(.vertical, 24)
             .background(Color.secondaryBackground)
             .cornerRadius(16.0)
-        //            .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.20000000298023224)), radius:40, x:0, y:20)
+            .shadow(color: Color(.displayP3, red: 0, green: 0, blue: 0, opacity: 0.1), radius: 15, x: 0, y: 10)
+            .shadow(color: Color(.displayP3, red: 0, green: 0, blue: 0, opacity: 0.05), radius: 6, x: 0, y: 4)
+        
         
     }
 }
@@ -227,6 +205,7 @@ struct HeaderModifier: ViewModifier {
     
     @State var isShowingAccount = false
     var title: String
+    var horizontalPadding: Bool
     
     func body(content: Content) -> some View {
         
@@ -251,11 +230,20 @@ struct HeaderModifier: ViewModifier {
             }.padding(.bottom, 5)
             .padding(.horizontal)
             
-            content
-                .navigationBarHidden(true)
-                .navigationBarBackButtonHidden(true)
-                .padding(.top, 10)
-                .padding(.horizontal)
+            if horizontalPadding {
+                content
+                    .navigationBarHidden(true)
+                    .navigationBarBackButtonHidden(true)
+                    .padding(.top, 10)
+                    .padding(.horizontal)
+            } else {
+                content
+                    .navigationBarHidden(true)
+                    .navigationBarBackButtonHidden(true)
+                    .padding(.top, 10)
+            }
+            
+            
         }.sheet(isPresented: $isShowingAccount, content: {AccountView()})
         .padding(.top)
         .background(Color.background.edgesIgnoringSafeArea(.all))

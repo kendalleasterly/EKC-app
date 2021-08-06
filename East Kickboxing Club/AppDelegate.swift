@@ -13,20 +13,8 @@ import Stripe
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let googleDelegate: GoogleDelegate
-    var navigationModel: NavigationModel
-    
-    override init() {
-        
-        
-        let navigationModel = NavigationModel()
-        let googleDelegate = GoogleDelegate(navigationModel: navigationModel)
-        
-        self.navigationModel = navigationModel
-        self.googleDelegate = googleDelegate
-        
-        super.init()
-    }
+    let navigationModel = NavigationModel()
+    let googleDelegate = GoogleDelegate()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
